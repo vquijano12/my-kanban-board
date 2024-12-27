@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDrag } from "react-dnd";
 import "../styles/Task.css";
 import { getColumnKey } from "../utils/ColumnMapping";
+import Modal from "./Modal";
 
 function Task({ task, deleteTask, column, editTask }) {
   const columnKey = getColumnKey(column);
@@ -9,6 +10,7 @@ function Task({ task, deleteTask, column, editTask }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(task.title);
   const [editedDescription, setEditedDescription] = useState(task.description);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [{ isDragging }, drag] = useDrag({
     type: "TASK",
@@ -20,7 +22,7 @@ function Task({ task, deleteTask, column, editTask }) {
 
   const handleEdit = () => {
     if (!editedTitle.trim()) {
-      alert("Task title cannot be empty");
+      setErrorMessage("Task title cannot be empty");
       return;
     }
     editTask(columnKey, task.id, {
@@ -65,6 +67,10 @@ function Task({ task, deleteTask, column, editTask }) {
             {task.locked ? "Unlock" : "Lock"}
           </button>
         </>
+      )}
+
+      {errorMessage && (
+        <Modal message={errorMessage} onClose={() => setErrorMessage("")} />
       )}
     </div>
   );

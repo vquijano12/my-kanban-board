@@ -3,14 +3,16 @@ import Task from "./Task";
 import { useDrop } from "react-dnd";
 import "../styles/Column.css";
 import { getColumnKey } from "../utils/ColumnMapping";
+import Modal from "./Modal";
 
 function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskDescription, setNewTaskDescription] = useState("");
+  const [taskError, setTaskError] = useState("");
 
   const handleAddTask = () => {
     if (!newTaskTitle.trim()) {
-      alert("Task title cannot be empty");
+      setTaskError("Please input a task title");
       return;
     }
     const newTask = {
@@ -22,6 +24,7 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
     addTask(newTask);
     setNewTaskTitle("");
     setNewTaskDescription("");
+    setTaskError("");
   };
 
   const columnKey = getColumnKey(title);
@@ -30,6 +33,8 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
     accept: "TASK",
     drop: (item) => moveTask(item.id, item.column, columnKey),
   });
+
+  const closeModal = () => setTaskError("");
 
   return (
     <div className="Column" ref={drop}>
@@ -62,6 +67,8 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
           <button onClick={handleAddTask}>Add Task</button>
         </>
       )}
+
+      {taskError && <Modal message={taskError} onClose={closeModal} />}
     </div>
   );
 }
