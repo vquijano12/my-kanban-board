@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Task from "./Task";
 import { useDrop } from "react-dnd";
 import "../styles/Column.css";
+import { getColumnKey } from "../utils/ColumnMapping";
 
 function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
   const [newTaskTitle, setNewTaskTitle] = useState("");
@@ -23,11 +24,7 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
     setNewTaskDescription("");
   };
 
-  const columnKey = {
-    "To Do": "todo",
-    "In Progress": "inProgress",
-    Done: "done",
-  }[title];
+  const columnKey = getColumnKey(title);
 
   const [, drop] = useDrop({
     accept: "TASK",

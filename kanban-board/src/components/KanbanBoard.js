@@ -3,6 +3,7 @@ import Column from "./Column";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import "../styles/KanbanBoard.css";
+import { getColumnKey } from "../utils/ColumnMapping";
 
 function KanbanBoard() {
   const [tasks, setTasks] = useState({
@@ -87,28 +88,17 @@ function KanbanBoard() {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="KanbanBoard">
-        <Column
-          title="To Do"
-          tasks={tasks.todo}
-          addTask={addTask}
-          deleteTask={deleteTask}
-          editTask={editTask}
-          moveTask={moveTask}
-        />
-        <Column
-          title="In Progress"
-          tasks={tasks.inProgress}
-          deleteTask={deleteTask}
-          editTask={editTask}
-          moveTask={moveTask}
-        />
-        <Column
-          title="Done"
-          tasks={tasks.done}
-          deleteTask={deleteTask}
-          editTask={editTask}
-          moveTask={moveTask}
-        />
+        {["To Do", "In Progress", "Done"].map((columnName) => (
+          <Column
+            key={columnName}
+            title={columnName}
+            tasks={tasks[getColumnKey(columnName)]}
+            addTask={addTask}
+            deleteTask={deleteTask}
+            editTask={editTask}
+            moveTask={moveTask}
+          />
+        ))}
       </div>
     </DndProvider>
   );

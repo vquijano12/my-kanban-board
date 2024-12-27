@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { useDrag } from "react-dnd";
 import "../styles/Task.css";
+import { getColumnKey } from "../utils/ColumnMapping";
 
 function Task({ task, deleteTask, column, editTask }) {
-  const columnKey = {
-    "To Do": "todo",
-    "In Progress": "inProgress",
-    Done: "done",
-  }[column];
+  const columnKey = getColumnKey(column);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(task.title);
