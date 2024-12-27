@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDrag } from "react-dnd";
+import "../styles/Task.css";
 
 function Task({ task, deleteTask, column, editTask }) {
   const columnKey = {

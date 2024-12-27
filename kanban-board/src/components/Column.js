@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Task from "./Task";
 import { useDrop } from "react-dnd";
+import "../styles/Column.css";
 
 function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
   const [newTaskTitle, setNewTaskTitle] = useState("");

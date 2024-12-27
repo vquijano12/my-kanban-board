@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Column from "./Column";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import "../styles/KanbanBoard.css";
 
 function KanbanBoard() {
   const [tasks, setTasks] = useState({
