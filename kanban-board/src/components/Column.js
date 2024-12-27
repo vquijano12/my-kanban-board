@@ -8,6 +8,10 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
   const [newTaskDescription, setNewTaskDescription] = useState("");
 
   const handleAddTask = () => {
+    if (!newTaskTitle.trim()) {
+      alert("Task title cannot be empty");
+      return;
+    }
     const newTask = {
       id: Date.now(),
       title: newTaskTitle,

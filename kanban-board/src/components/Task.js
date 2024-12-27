@@ -22,6 +22,10 @@ function Task({ task, deleteTask, column, editTask }) {
   });
 
   const handleEdit = () => {
+    if (!editedTitle.trim()) {
+      alert("Task title cannot be empty");
+      return;
+    }
     editTask(columnKey, task.id, {
       title: editedTitle,
       description: editedDescription,
