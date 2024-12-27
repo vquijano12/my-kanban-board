@@ -5,8 +5,12 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <h1>Kanban Board</h1>
-      <KanbanBoard />
+      <header className="App-header">
+        <h1>Kanban Board</h1>
+      </header>
+      <main className="App-main">
+        <KanbanBoard />
+      </main>
     </div>
   );
 }
