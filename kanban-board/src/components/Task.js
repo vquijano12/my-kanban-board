@@ -28,6 +28,10 @@ function Task({ task, deleteTask, column, editTask }) {
     setIsEditing(false);
   };
 
+  const toggleLock = () => {
+    editTask(columnKey, task.id, { locked: !task.locked });
+  };
+
   return (
     <div ref={drag} className="Task" style={{ opacity: isDragging ? 0.5 : 1 }}>
       {isEditing ? (
@@ -49,8 +53,15 @@ function Task({ task, deleteTask, column, editTask }) {
         <>
           <h3>{task.title}</h3>
           <p>{task.description}</p>
-          <button onClick={() => setIsEditing(true)}>Edit</button>
-          <button onClick={deleteTask}>Delete</button>
+          <button onClick={() => setIsEditing(true)} disabled={task.locked}>
+            Edit
+          </button>
+          <button onClick={deleteTask} disabled={task.locked}>
+            Delete
+          </button>
+          <button onClick={toggleLock}>
+            {task.locked ? "Unlock" : "Lock"}
+          </button>
         </>
       )}
     </div>

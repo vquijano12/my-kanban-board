@@ -11,6 +11,7 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
       id: Date.now(),
       title: newTaskTitle,
       description: newTaskDescription,
+      locked: false,
     };
     addTask(newTask);
     setNewTaskTitle("");
