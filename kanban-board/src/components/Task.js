@@ -15,6 +15,7 @@ function Task({ task, deleteTask, column, editTask }) {
   const [{ isDragging }, drag] = useDrag({
     type: "TASK",
     item: { id: task.id, column: columnKey },
+    canDrag: !isEditing && !task.locked,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
