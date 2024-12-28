@@ -4,6 +4,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import "../styles/KanbanBoard.css";
 import { getColumnKey } from "../utils/ColumnMapping";
+import InfoModal from "./InfoModal";
 
 function KanbanBoard() {
   const [tasks, setTasks] = useState({
@@ -11,6 +12,7 @@ function KanbanBoard() {
     inProgress: [],
     done: [],
   });
+  const [showInfoModal, setShowInfoModal] = useState(false);
 
   const addTask = (task) => {
     setTasks((prevTasks) => ({
@@ -85,9 +87,32 @@ function KanbanBoard() {
     });
   };
 
+  const handleInfoClick = () => {
+    setShowInfoModal(true); // Show the info modal
+  };
+
+  const closeInfoModal = () => {
+    setShowInfoModal(false); // Close the info modal
+  };
+
+  const infoMessages = [
+    "Add tasks by typing a title and description.",
+    "Drag and drop tasks between the columns (To Do, In Progress, Done).",
+    "Edit task titles and descriptions.",
+    "Lock tasks to prevent changes.",
+    "Delete tasks when finished.",
+  ];
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="KanbanBoard">
+        <button className="info-button" onClick={handleInfoClick}>
+          ℹ️ Info
+        </button>
+        {showInfoModal && (
+          <InfoModal messages={infoMessages} onClose={closeInfoModal} />
+        )}
+
         {["To Do", "In Progress", "Done"].map((columnName) => (
           <Column
             key={columnName}
