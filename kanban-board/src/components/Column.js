@@ -6,9 +6,17 @@ import { getColumnKey } from "../utils/ColumnMapping";
 import Modal from "./Modal";
 
 function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskError, setTaskError] = useState("");
+
+  const handleOpenTaskModal = () => setIsTaskModalOpen(true);
+  const handleCloseTaskModal = () => {
+    setIsTaskModalOpen(false);
+    setNewTaskTitle("");
+    setNewTaskDescription("");
+  };
 
   const handleAddTask = () => {
     if (!newTaskTitle.trim()) {
@@ -22,8 +30,7 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
       locked: false,
     };
     addTask(newTask);
-    setNewTaskTitle("");
-    setNewTaskDescription("");
+    handleCloseTaskModal();
     setTaskError("");
   };
 
@@ -33,8 +40,6 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
     accept: "TASK",
     drop: (item) => moveTask(item.id, item.column, columnKey),
   });
-
-  const closeModal = () => setTaskError("");
 
   return (
     <div className="Column" ref={drop}>
@@ -51,24 +56,38 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
         ))}
       </div>
       {title === "To Do" && (
-        <>
-          <input
-            type="text"
-            placeholder="Task Title"
-            value={newTaskTitle}
-            onChange={(e) => setNewTaskTitle(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Task Description"
-            value={newTaskDescription}
-            onChange={(e) => setNewTaskDescription(e.target.value)}
-          />
-          <button onClick={handleAddTask}>Add Task</button>
-        </>
+        <button onClick={handleOpenTaskModal}>+ Add Task</button>
       )}
 
-      {taskError && <Modal message={taskError} onClose={closeModal} />}
+      {isTaskModalOpen && (
+        <Modal
+          title="Add New Task"
+          isInputModal
+          message="Enter the task details below:"
+          placeholder="Task Title"
+          inputValues={[
+            {
+              label: "Task Title: ",
+              value: newTaskTitle,
+              onChange: (e) => setNewTaskTitle(e.target.value),
+            },
+            {
+              label: "Task Description: ",
+              value: newTaskDescription,
+              onChange: (e) => setNewTaskDescription(e.target.value),
+            },
+          ]}
+          onConfirm={handleAddTask}
+          onClose={handleCloseTaskModal}
+        />
+      )}
+
+      {taskError && (
+        <Modal
+          message={taskError}
+          onClose={() => setTaskError("")}
+        />
+      )}
     </div>
   );
 }

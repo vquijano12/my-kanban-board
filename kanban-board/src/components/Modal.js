@@ -1,25 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import "../styles/Modal.css";
 
 function Modal({
   title,
   message,
   onClose,
-  isInputModal,
-  onSubmitInput,
-  inputPlaceholder,
+  onConfirm,
+  isInputModal = false,
+  inputValues = [],
 }) {
-  const [inputValue, setInputValue] = useState("");
-
-  const handleInputSubmit = () => {
-    if (inputValue.trim()) {
-      onSubmitInput(inputValue.trim());
-      onClose();
-    } else {
-      alert("Input cannot be empty.");
-    }
-  };
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -27,26 +16,23 @@ function Modal({
           <h2>{title}</h2>
         </div>
         <div className="modal-body">
-          {isInputModal ? (
-            <input
-              type="text"
-              placeholder={inputPlaceholder || "Enter value"}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-          ) : (
-            <p>{message}</p>
-          )}
+          <p>{message}</p>
+          {isInputModal &&
+            inputValues.map((input, index) => (
+              <div key={index} className="modal-input-group">
+                <label>{input.label}</label>
+                <input
+                  type="text"
+                  value={input.value}
+                  onChange={input.onChange}
+                  placeholder={input.placeholder || ""}
+                />
+              </div>
+            ))}
         </div>
         <div className="modal-footer">
-          {isInputModal ? (
-            <>
-              <button onClick={handleInputSubmit}>Submit</button>
-              <button onClick={onClose}>Cancel</button>
-            </>
-          ) : (
-            <button onClick={onClose}>Close</button>
-          )}
+          {isInputModal ? <button onClick={onConfirm}>Confirm</button> : null}
+          <button onClick={onClose}>Close</button>
         </div>
       </div>
     </div>
