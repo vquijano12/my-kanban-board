@@ -8,6 +8,7 @@ function Task({ task, deleteTask, column, editTask }) {
   const columnKey = getColumnKey(column);
 
   // Store the editing state and original task values
+  const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(task.title);
   const [editedDescription, setEditedDescription] = useState(task.description);
@@ -59,7 +60,7 @@ function Task({ task, deleteTask, column, editTask }) {
   return (
     <div ref={drag} className="Task" style={{ opacity: isDragging ? 0.5 : 1 }}>
       <h3>{task.title}</h3>
-      <p>{task.description}</p>
+      <button onClick={() => setIsDescriptionModalOpen(true)}>View</button>
       <button onClick={() => setIsEditing(true)} disabled={task.locked}>
         Edit
       </button>
@@ -67,6 +68,13 @@ function Task({ task, deleteTask, column, editTask }) {
         Delete
       </button>
       <button onClick={toggleLock}>{task.locked ? "Unlock" : "Lock"}</button>
+      {isDescriptionModalOpen && (
+        <Modal
+          title="Task Description"
+          message={task.description || "No description provided"}
+          onClose={() => setIsDescriptionModalOpen(false)}
+        />
+      )}
 
       {isEditing && (
         <Modal
