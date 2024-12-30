@@ -70,9 +70,10 @@ function Task({ task, deleteTask, column, editTask }) {
       <button onClick={toggleLock}>{task.locked ? "Unlock" : "Lock"}</button>
       {isDescriptionModalOpen && (
         <Modal
-          title="Task Description"
-          message={task.description || "No description provided"}
+          title={`Task: ${task.title}`}
+          message={task.description || "No description"}
           onClose={() => setIsDescriptionModalOpen(false)}
+          onConfirm={() => setIsDescriptionModalOpen(false)}
         />
       )}
 
