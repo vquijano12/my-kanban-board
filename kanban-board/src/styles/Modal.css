@@ -27,6 +27,24 @@
   margin: 10px 0;
 }
 
+.modal-input-group {
+  margin: 5px 0;
+}
+
+.modal-input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.modal-input-group input,
+.modal-input-group textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none;
+  overflow-y: hidden;
+}
+
 .modal-footer button {
   padding: 8px 16px;
   margin: 10px;
