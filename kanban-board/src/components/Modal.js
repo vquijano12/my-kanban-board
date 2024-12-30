@@ -9,6 +9,11 @@ function Modal({
   isInputModal = false,
   inputValues = [],
 }) {
+  const handleInputResize = (e) => {
+    e.target.style.height = "auto"; // Reset height
+    e.target.style.height = `${e.target.scrollHeight}px`; // Set new height based on content
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -21,12 +26,22 @@ function Modal({
             inputValues.map((input, index) => (
               <div key={index} className="modal-input-group">
                 <label>{input.label}</label>
-                <input
-                  type="text"
-                  value={input.value}
-                  onChange={input.onChange}
-                  placeholder={input.placeholder || ""}
-                />
+                {input.label === "Description: " ? (
+                  // Use a textarea for the description input
+                  <textarea
+                    value={input.value}
+                    onChange={input.onChange}
+                    placeholder={input.placeholder || ""}
+                    onInput={handleInputResize} // Resize on input
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    value={input.value}
+                    onChange={input.onChange}
+                    placeholder={input.placeholder || ""}
+                  />
+                )}
               </div>
             ))}
         </div>
