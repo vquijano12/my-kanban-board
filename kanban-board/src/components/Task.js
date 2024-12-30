@@ -58,35 +58,38 @@ function Task({ task, deleteTask, column, editTask }) {
 
   return (
     <div ref={drag} className="Task" style={{ opacity: isDragging ? 0.5 : 1 }}>
-      {isEditing ? (
-        <>
-          <input
-            type="text"
-            value={editedTitle}
-            onChange={(e) => setEditedTitle(e.target.value)}
-          />
-          <input
-            type="text"
-            value={editedDescription}
-            onChange={(e) => setEditedDescription(e.target.value)}
-          />
-          <button onClick={handleEdit}>Save</button>
-          <button onClick={handleCancelEdit}>Cancel</button>
-        </>
-      ) : (
-        <>
-          <h3>{task.title}</h3>
-          <p>{task.description}</p>
-          <button onClick={() => setIsEditing(true)} disabled={task.locked}>
-            Edit
-          </button>
-          <button onClick={deleteTask} disabled={task.locked}>
-            Delete
-          </button>
-          <button onClick={toggleLock}>
-            {task.locked ? "Unlock" : "Lock"}
-          </button>
-        </>
+      <h3>{task.title}</h3>
+      <p>{task.description}</p>
+      <button onClick={() => setIsEditing(true)} disabled={task.locked}>
+        Edit
+      </button>
+      <button onClick={deleteTask} disabled={task.locked}>
+        Delete
+      </button>
+      <button onClick={toggleLock}>{task.locked ? "Unlock" : "Lock"}</button>
+
+      {isEditing && (
+        <Modal
+          title="Edit Task"
+          message=""
+          onClose={handleCancelEdit}
+          onConfirm={handleEdit}
+          isInputModal={true}
+          inputValues={[
+            {
+              label: "Title: ",
+              value: editedTitle,
+              onChange: (e) => setEditedTitle(e.target.value),
+              placeholder: "",
+            },
+            {
+              label: "Description: ",
+              value: editedDescription,
+              onChange: (e) => setEditedDescription(e.target.value),
+              placeholder: "",
+            },
+          ]}
+        />
       )}
 
       {errorMessage && (
