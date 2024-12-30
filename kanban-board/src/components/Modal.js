@@ -26,7 +26,7 @@ function Modal({
             inputValues.map((input, index) => (
               <div key={index} className="modal-input-group">
                 <label>{input.label}</label>
-                {input.label === "Description: " ? (
+                {input.label === "Description" ? (
                   // Use a textarea for the description input
                   <textarea
                     value={input.value}
