@@ -85,13 +85,13 @@ function Task({ task, deleteTask, column, editTask }) {
           isInputModal={true}
           inputValues={[
             {
-              label: "Title: ",
+              label: "Title",
               value: editedTitle,
               onChange: (e) => setEditedTitle(e.target.value),
               placeholder: "",
             },
             {
-              label: "Description: ",
+              label: "Description",
               value: editedDescription,
               onChange: (e) => setEditedDescription(e.target.value),
               placeholder: "",

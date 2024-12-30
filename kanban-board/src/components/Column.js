@@ -67,12 +67,12 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
           placeholder="Task Title"
           inputValues={[
             {
-              label: "Title: ",
+              label: "Title",
               value: newTaskTitle,
               onChange: (e) => setNewTaskTitle(e.target.value),
             },
             {
-              label: "Description: ",
+              label: "Description",
               value: newTaskDescription,
               onChange: (e) => setNewTaskDescription(e.target.value),
             },
