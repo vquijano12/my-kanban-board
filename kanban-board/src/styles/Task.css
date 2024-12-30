@@ -6,6 +6,7 @@
     word-wrap: break-word;
     word-break: break-word;
     overflow-wrap: break-word;
+    cursor: pointer;
   }
 
 /* Media queries for Task component */
