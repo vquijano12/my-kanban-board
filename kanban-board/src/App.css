@@ -46,10 +46,10 @@
   .App-header {
     width: 90%;
     padding: 10px;
+    margin: 20px auto 5px auto;
   }
 
   .App-main {
-    padding: 10px;
     flex-direction: column;
     align-items: center;
   }
