@@ -6,17 +6,13 @@ import "../styles/KanbanBoard.css";
 import { getColumnKey } from "../utils/ColumnMapping";
 import InfoModal from "./InfoModal";
 
-function KanbanBoard() {
+function KanbanBoard({ searchQuery }) {
   const [tasks, setTasks] = useState({
     todo: [],
     inProgress: [],
     done: [],
   });
-  const [searchQuery, setSearchQuery] = useState("");
   const [showInfoModal, setShowInfoModal] = useState(false);
-
-  const handleSearchChange = (e) =>
-    setSearchQuery(e.target.value.toLowerCase());
 
   const filteredTasks = Object.keys(tasks).reduce((result, columnKey) => {
     result[columnKey] = tasks[columnKey].filter((task) =>
@@ -62,10 +58,9 @@ function KanbanBoard() {
 
   const moveTask = (taskId, sourceColumn, targetColumn) => {
     setTasks((prevTasks) => {
-      // Check if source and target columns are the same
       if (sourceColumn === targetColumn) {
         console.warn(`Task ${taskId} is already in column ${targetColumn}`);
-        return prevTasks; // No changes to state
+        return prevTasks;
       }
 
       if (!prevTasks[sourceColumn] || !prevTasks[targetColumn]) {
@@ -75,7 +70,6 @@ function KanbanBoard() {
         return prevTasks;
       }
 
-      // Find the task to move
       const taskToMove = prevTasks[sourceColumn].find(
         (task) => task.id === taskId
       );
@@ -84,7 +78,6 @@ function KanbanBoard() {
         return prevTasks;
       }
 
-      // Perform the move
       const sourceTasks = prevTasks[sourceColumn].filter(
         (task) => task.id !== taskId
       );
@@ -99,11 +92,11 @@ function KanbanBoard() {
   };
 
   const handleInfoClick = () => {
-    setShowInfoModal(true); // Show the info modal
+    setShowInfoModal(true);
   };
 
   const closeInfoModal = () => {
-    setShowInfoModal(false); // Close the info modal
+    setShowInfoModal(false);
   };
 
   const infoMessages = [
@@ -120,16 +113,9 @@ function KanbanBoard() {
         <button className="info-button" onClick={handleInfoClick}>
           ℹ️ Info
         </button>
-        <input
-          type="text"
-          placeholder="Search tasks by title..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-        />
         {showInfoModal && (
           <InfoModal messages={infoMessages} onClose={closeInfoModal} />
         )}
-
         {["To Do", "In Progress", "Done"].map((columnName) => (
           <Column
             key={columnName}
