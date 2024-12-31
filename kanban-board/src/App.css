@@ -16,6 +16,18 @@
   border-radius: 5px;
 }
 
+.App-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.App-search input{
+  width: 200px;
+  margin: 10px auto;
+}
+
 .App-main {
   display: flex;
   justify-content: center;
@@ -23,8 +35,7 @@
   align-items: flex-start;
   flex-grow: 1;
   width: 90%;
-  margin: auto;
-  padding: 20px;
+  margin: 0px auto 20px auto;
 }
 
 
