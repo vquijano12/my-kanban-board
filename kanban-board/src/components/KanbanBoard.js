@@ -12,7 +12,18 @@ function KanbanBoard() {
     inProgress: [],
     done: [],
   });
+  const [searchQuery, setSearchQuery] = useState("");
   const [showInfoModal, setShowInfoModal] = useState(false);
+
+  const handleSearchChange = (e) =>
+    setSearchQuery(e.target.value.toLowerCase());
+
+  const filteredTasks = Object.keys(tasks).reduce((result, columnKey) => {
+    result[columnKey] = tasks[columnKey].filter((task) =>
+      task.title.toLowerCase().includes(searchQuery)
+    );
+    return result;
+  }, {});
 
   const addTask = (task) => {
     setTasks((prevTasks) => ({
@@ -109,6 +120,12 @@ function KanbanBoard() {
         <button className="info-button" onClick={handleInfoClick}>
           ℹ️ Info
         </button>
+        <input
+          type="text"
+          placeholder="Search tasks by title..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
         {showInfoModal && (
           <InfoModal messages={infoMessages} onClose={closeInfoModal} />
         )}
@@ -117,7 +134,7 @@ function KanbanBoard() {
           <Column
             key={columnName}
             title={columnName}
-            tasks={tasks[getColumnKey(columnName)]}
+            tasks={filteredTasks[getColumnKey(columnName)]}
             addTask={addTask}
             deleteTask={deleteTask}
             editTask={editTask}
