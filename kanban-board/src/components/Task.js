@@ -7,15 +7,10 @@ import Modal from "./Modal";
 function Task({ task, deleteTask, column, editTask }) {
   const columnKey = getColumnKey(column);
 
-  // Store the editing state and original task values
   const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(task.title);
   const [editedDescription, setEditedDescription] = useState(task.description);
-  const [originalTitle, setOriginalTitle] = useState(task.title);
-  const [originalDescription, setOriginalDescription] = useState(
-    task.description
-  );
   const [errorMessage, setErrorMessage] = useState("");
 
   const [{ isDragging }, drag] = useDrag({
@@ -27,7 +22,6 @@ function Task({ task, deleteTask, column, editTask }) {
     }),
   });
 
-  // Handle saving the edited task
   const handleEdit = () => {
     if (!editedTitle.trim()) {
       setErrorMessage("Task title cannot be empty");
@@ -40,11 +34,10 @@ function Task({ task, deleteTask, column, editTask }) {
     setIsEditing(false);
   };
 
-  // Handle canceling the edit, revert to original values
   const handleCancelEdit = () => {
-    setEditedTitle(originalTitle); // Revert to original title
-    setEditedDescription(originalDescription); // Revert to original description
-    setIsEditing(false); // Exit editing mode
+    setEditedTitle(task.title);
+    setEditedDescription(task.description);
+    setIsEditing(false);
   };
 
   const toggleLock = () => {
@@ -52,9 +45,8 @@ function Task({ task, deleteTask, column, editTask }) {
   };
 
   useEffect(() => {
-    // Update the original title and description whenever the task data changes
-    setOriginalTitle(task.title);
-    setOriginalDescription(task.description);
+    setEditedTitle(task.title);
+    setEditedDescription(task.description);
   }, [task]);
 
   return (
