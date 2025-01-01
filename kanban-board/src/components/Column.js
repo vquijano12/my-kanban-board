@@ -11,7 +11,8 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskError, setTaskError] = useState("");
 
-  const handleOpenTaskModal = () => setIsTaskModalOpen(true);
+  const columnKey = getColumnKey(title);
+
   const handleCloseTaskModal = () => {
     setIsTaskModalOpen(false);
     setNewTaskTitle("");
@@ -23,6 +24,7 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
       setTaskError("Please input a task title");
       return;
     }
+
     const newTask = {
       id: Date.now(),
       title: newTaskTitle,
@@ -33,8 +35,6 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
     handleCloseTaskModal();
     setTaskError("");
   };
-
-  const columnKey = getColumnKey(title);
 
   const [, drop] = useDrop({
     accept: "TASK",
@@ -55,8 +55,9 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
           />
         ))}
       </div>
+
       {title === "To Do" && (
-        <button onClick={handleOpenTaskModal}>+ Add Task</button>
+        <button onClick={() => setIsTaskModalOpen(true)}>+ Add Task</button>
       )}
 
       {isTaskModalOpen && (
@@ -83,10 +84,7 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
       )}
 
       {taskError && (
-        <Modal
-          message={taskError}
-          onClose={() => setTaskError("")}
-        />
+        <Modal message={taskError} onClose={() => setTaskError("")} />
       )}
     </div>
   );
