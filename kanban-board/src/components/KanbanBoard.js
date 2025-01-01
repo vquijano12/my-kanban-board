@@ -15,9 +15,10 @@ function KanbanBoard({ searchQuery }) {
   const [showInfoModal, setShowInfoModal] = useState(false);
 
   const filteredTasks = Object.keys(tasks).reduce((result, columnKey) => {
-    result[columnKey] = tasks[columnKey].filter((task) =>
-      task.title.toLowerCase().includes(searchQuery)
-    );
+    result[columnKey] =
+      tasks[columnKey]?.filter((task) =>
+        task.title.toLowerCase().includes(searchQuery)
+      ) || [];
     return result;
   }, {});
 
@@ -120,7 +121,7 @@ function KanbanBoard({ searchQuery }) {
           <Column
             key={columnName}
             title={columnName}
-            tasks={filteredTasks[getColumnKey(columnName)]}
+            tasks={filteredTasks[getColumnKey(columnName)] || []}
             addTask={addTask}
             deleteTask={deleteTask}
             editTask={editTask}
