@@ -5,6 +5,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import "../styles/KanbanBoard.css";
 import { getColumnKey } from "../utils/ColumnMapping";
 import InfoModal from "./InfoModal";
+import Modal from "./Modal";
 
 function KanbanBoard({ searchQuery }) {
   const [tasks, setTasks] = useState({
@@ -12,7 +13,13 @@ function KanbanBoard({ searchQuery }) {
     inProgress: [],
     done: [],
   });
+
+  const [columns, setColumns] = useState(["To Do", "In Progress", "Done"]);
   const [showInfoModal, setShowInfoModal] = useState(false);
+  const [newColumnName, setNewColumnName] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const filteredTasks = Object.keys(tasks).reduce((result, columnKey) => {
     result[columnKey] =
@@ -108,6 +115,44 @@ function KanbanBoard({ searchQuery }) {
     "Delete tasks when finished.",
   ];
 
+  const handleAddColumn = () => {
+    setShowModal(true);
+  };
+
+  const handleConfirmColumn = () => {
+    const columnKey = getColumnKey(newColumnName);
+
+    if (newColumnName.trim() && !columns.includes(newColumnName)) {
+      setColumns((prevColumns) => [...prevColumns, newColumnName]);
+
+      setTasks((prevTasks) => ({
+        ...prevTasks,
+        [columnKey]: [],
+      }));
+
+      setNewColumnName("");
+      setShowModal(false);
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Column name is empty or already exists!");
+      setShowErrorModal(true);
+    }
+  };
+
+  const handleColumnEdit = (columnKey, newName) => {
+    setColumns((prevColumns) =>
+      prevColumns.map((column) =>
+        getColumnKey(column) === columnKey ? newName : column
+      )
+    );
+  };
+
+  const handleColumnDelete = (columnKey) => {
+    setColumns((prevColumns) =>
+      prevColumns.filter((column) => getColumnKey(column) !== columnKey)
+    );
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="KanbanBoard">
@@ -117,7 +162,8 @@ function KanbanBoard({ searchQuery }) {
         {showInfoModal && (
           <InfoModal messages={infoMessages} onClose={closeInfoModal} />
         )}
-        {["To Do", "In Progress", "Done"].map((columnName) => (
+
+        {columns.map((columnName) => (
           <Column
             key={columnName}
             title={columnName}
@@ -126,8 +172,41 @@ function KanbanBoard({ searchQuery }) {
             deleteTask={deleteTask}
             editTask={editTask}
             moveTask={moveTask}
+            onDeleteColumn={handleColumnDelete}
+            onEditColumn={handleColumnEdit}
           />
         ))}
+
+        {showModal && (
+          <Modal
+            title="Add New Column"
+            message="New column name:"
+            isInputModal={true}
+            inputValues={[
+              {
+                label: "",
+                value: newColumnName,
+                onChange: (e) => setNewColumnName(e.target.value),
+                placeholder: "",
+              },
+            ]}
+            onConfirm={handleConfirmColumn}
+            onClose={() => setShowModal(false)}
+          />
+        )}
+
+        {showErrorModal && (
+          <Modal
+            title="Error"
+            message={errorMessage}
+            isInputModal={false}
+            onClose={() => setShowErrorModal(false)}
+          />
+        )}
+
+        <button className="add-column-button" onClick={handleAddColumn}>
+          + Add Column
+        </button>
       </div>
     </DndProvider>
   );
