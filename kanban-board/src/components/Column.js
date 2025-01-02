@@ -5,11 +5,22 @@ import "../styles/Column.css";
 import { getColumnKey } from "../utils/ColumnMapping";
 import Modal from "./Modal";
 
-function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
+function Column({
+  title,
+  tasks,
+  addTask,
+  deleteTask,
+  moveTask,
+  editTask,
+  onDeleteColumn,
+  onEditColumn,
+}) {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskError, setTaskError] = useState("");
+  const [newColumnName, setNewColumnName] = useState(title);
 
   const columnKey = getColumnKey(title);
 
@@ -36,6 +47,17 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
     setTaskError("");
   };
 
+  const handleEditColumn = () => {
+    if (newColumnName.trim()) {
+      onEditColumn(columnKey, newColumnName);
+      setIsEditModalOpen(false);
+    }
+  };
+
+  const handleDeleteColumn = () => {
+    onDeleteColumn(columnKey);
+  };
+
   const [, drop] = useDrop({
     accept: "TASK",
     drop: (item) => moveTask(item.id, item.column, columnKey),
@@ -44,6 +66,11 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
   return (
     <div className="Column" ref={drop}>
       <h2>{title}</h2>
+      <div className="column-actions">
+        <button onClick={() => setIsEditModalOpen(true)}>Edit</button>
+        <button onClick={handleDeleteColumn}>Delete</button>
+      </div>
+
       <div className="task-list">
         {tasks.map((task) => (
           <Task
@@ -65,7 +92,6 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
           title="Add New Task"
           isInputModal
           message="Enter the task details below:"
-          placeholder="Task Title"
           inputValues={[
             {
               label: "Title",
@@ -80,6 +106,23 @@ function Column({ title, tasks, addTask, deleteTask, moveTask, editTask }) {
           ]}
           onConfirm={handleAddTask}
           onClose={handleCloseTaskModal}
+        />
+      )}
+
+      {isEditModalOpen && (
+        <Modal
+          title="Edit"
+          isInputModal
+          message="Enter the new column name:"
+          inputValues={[
+            {
+              label: "",
+              value: newColumnName,
+              onChange: (e) => setNewColumnName(e.target.value),
+            },
+          ]}
+          onConfirm={handleEditColumn}
+          onClose={() => setIsEditModalOpen(false)}
         />
       )}
 
