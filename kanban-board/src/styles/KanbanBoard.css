@@ -1,8 +1,10 @@
 .KanbanBoard {
-  flex-wrap: wrap;
   display: flex;
-  gap: 30px;
+  gap: 20px;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 10px;
 }
