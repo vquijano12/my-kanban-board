@@ -231,7 +231,7 @@ function KanbanBoard({ searchQuery }) {
         )}
 
         <button className="add-column-button" onClick={handleAddColumn}>
-          + Add Column
+          +
         </button>
       </div>
     </DndProvider>
