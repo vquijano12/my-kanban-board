@@ -9,6 +9,7 @@ function Task({ task, deleteTask, column, editTask }) {
 
   const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [editedTitle, setEditedTitle] = useState(task.title);
   const [editedDescription, setEditedDescription] = useState(task.description);
   const [errorMessage, setErrorMessage] = useState("");
@@ -32,16 +33,19 @@ function Task({ task, deleteTask, column, editTask }) {
       description: editedDescription,
     });
     setIsEditing(false);
+    setIsMenuOpen(false);
   };
 
   const handleCancelEdit = () => {
     setEditedTitle(task.title);
     setEditedDescription(task.description);
     setIsEditing(false);
+    setIsMenuOpen(false);
   };
 
   const toggleLock = () => {
     editTask(columnKey, task.id, { locked: !task.locked });
+    setIsMenuOpen(false);
   };
 
   useEffect(() => {
@@ -51,21 +55,46 @@ function Task({ task, deleteTask, column, editTask }) {
 
   return (
     <div ref={drag} className="Task" style={{ opacity: isDragging ? 0.5 : 1 }}>
-      <h3>{task.title}</h3>
-      <button onClick={() => setIsDescriptionModalOpen(true)}>View</button>
-      <button onClick={() => setIsEditing(true)} disabled={task.locked}>
-        Edit
-      </button>
-      <button onClick={deleteTask} disabled={task.locked}>
-        Delete
-      </button>
-      <button onClick={toggleLock}>{task.locked ? "Unlock" : "Lock"}</button>
+      <div className="task-content">
+        <h3>{task.title}</h3>
+      </div>
+      <div className="task-menu">
+        <button
+          className="menu-button"
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+        >
+          ⋮
+        </button>
+        {isMenuOpen && (
+          <div className="menu-dropdown">
+            <button onClick={() => setIsDescriptionModalOpen(true)}>
+              View
+            </button>
+            <button onClick={() => setIsEditing(true)} disabled={task.locked}>
+              Edit
+            </button>
+            <button onClick={deleteTask} disabled={task.locked}>
+              Delete
+            </button>
+            <button onClick={toggleLock}>
+              {task.locked ? "Unlock" : "Lock"}
+            </button>
+          </div>
+        )}
+      </div>
+
       {isDescriptionModalOpen && (
         <Modal
           title={`Task: ${task.title}`}
           message={task.description || "No description"}
-          onClose={() => setIsDescriptionModalOpen(false)}
-          onConfirm={() => setIsDescriptionModalOpen(false)}
+          onClose={() => {
+            setIsDescriptionModalOpen(false);
+            setIsMenuOpen(false);
+          }}
+          onConfirm={() => {
+            setIsDescriptionModalOpen(false);
+            setIsMenuOpen(false);
+          }}
         />
       )}
 
