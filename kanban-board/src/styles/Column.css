@@ -4,10 +4,10 @@
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
   padding: 10px;
   width: 30%;
-  flex: 0 0 250px;
+  flex: 0 0 200px;
   display: flex;
   flex-direction: column;
-  height: auto;
+  min-height: 300px;
 }
 
 .Column .column-actions {
@@ -23,6 +23,7 @@
 .Column .add-task-button {
   display: flex;
   justify-content: flex-start;
+  margin-top: auto;
 }
 
 .Column .add-task-button button {
