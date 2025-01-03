@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Column from "./Column";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -20,6 +20,32 @@ function KanbanBoard({ searchQuery }) {
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const boardRef = useRef(null);
+
+  const handleScroll = (event, offsetY) => {
+    const container = boardRef.current;
+    if (!container) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = container;
+    const maxScrollLeft = scrollWidth - clientWidth;
+
+    const buffer = 50;
+
+    if (offsetY < buffer && scrollLeft > 0) {
+      container.scrollLeft -= 15;
+    } else if (
+      offsetY > window.innerHeight - buffer &&
+      scrollLeft < maxScrollLeft
+    ) {
+      container.scrollLeft += 15;
+    }
+  };
+
+  const onDragOver = (event) => {
+    event.preventDefault();
+    const { clientY } = event;
+    handleScroll(event, clientY);
+  };
 
   const filteredTasks = Object.keys(tasks).reduce((result, columnKey) => {
     result[columnKey] =
@@ -155,7 +181,7 @@ function KanbanBoard({ searchQuery }) {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="KanbanBoard">
+      <div className="KanbanBoard" onDragOver={onDragOver} ref={boardRef}>
         <button className="info-button" onClick={handleInfoClick}>
           ℹ️ Info
         </button>
