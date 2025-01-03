@@ -17,6 +17,7 @@ function Column({
 }) {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskError, setTaskError] = useState("");
@@ -68,11 +69,23 @@ function Column({
 
   return (
     <div className="Column" ref={drop}>
-      <div className="column-actions">
-        <button onClick={() => setIsEditModalOpen(true)}>Edit</button>
-        <button onClick={handleDeleteColumn}>Delete</button>
+      <div className="column-header">
+        <h2>{title}</h2>
+        <div className="column-menu">
+          <button
+            className="menu-button"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+          >
+            ⋮
+          </button>
+          {isMenuOpen && (
+            <div className="menu-dropdown">
+              <button onClick={() => setIsEditModalOpen(true)}>Edit</button>
+              <button onClick={handleDeleteColumn}>Delete</button>
+            </div>
+          )}
+        </div>
       </div>
-      <h2>{title}</h2>
 
       <div className="task-list">
         {tasks.map((task) => (
