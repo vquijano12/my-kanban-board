@@ -49,7 +49,10 @@ function Column({
 
   const handleEditColumn = () => {
     if (newColumnName.trim()) {
-      onEditColumn(columnKey, newColumnName);
+      const newColumnKey = getColumnKey(newColumnName);
+      const oldColumnKey = columnKey;
+
+      onEditColumn(oldColumnKey, newColumnKey, newColumnName);
       setIsEditModalOpen(false);
     }
   };
@@ -84,7 +87,7 @@ function Column({
       </div>
 
       <div className="add-task-button">
-        {title === "To Do" && (
+        {title && (
           <button onClick={() => setIsTaskModalOpen(true)}>+ Add Task</button>
         )}
       </div>

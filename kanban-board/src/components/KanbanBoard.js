@@ -55,10 +55,10 @@ function KanbanBoard({ searchQuery }) {
     return result;
   }, {});
 
-  const addTask = (task) => {
+  const addTask = (task, columnKey) => {
     setTasks((prevTasks) => ({
       ...prevTasks,
-      todo: [...prevTasks.todo, task],
+      [columnKey]: [...(prevTasks[columnKey] || []), task],
     }));
   };
 
@@ -150,12 +150,10 @@ function KanbanBoard({ searchQuery }) {
 
     if (newColumnName.trim() && !columns.includes(newColumnName)) {
       setColumns((prevColumns) => [...prevColumns, newColumnName]);
-
       setTasks((prevTasks) => ({
         ...prevTasks,
         [columnKey]: [],
       }));
-
       setNewColumnName("");
       setShowModal(false);
       setErrorMessage("");
@@ -165,10 +163,19 @@ function KanbanBoard({ searchQuery }) {
     }
   };
 
-  const handleColumnEdit = (columnKey, newName) => {
+  const handleColumnEdit = (oldColumnKey, newColumnKey, newName) => {
+    setTasks((prevTasks) => {
+      const updatedTasks = { ...prevTasks };
+
+      updatedTasks[newColumnKey] = updatedTasks[oldColumnKey];
+      delete updatedTasks[oldColumnKey];
+
+      return updatedTasks;
+    });
+
     setColumns((prevColumns) =>
       prevColumns.map((column) =>
-        getColumnKey(column) === columnKey ? newName : column
+        getColumnKey(column) === oldColumnKey ? newName : column
       )
     );
   };
@@ -189,12 +196,12 @@ function KanbanBoard({ searchQuery }) {
           <InfoModal messages={infoMessages} onClose={closeInfoModal} />
         )}
 
-        {columns.map((columnName) => (
+        {columns.map((columnKey) => (
           <Column
-            key={columnName}
-            title={columnName}
-            tasks={filteredTasks[getColumnKey(columnName)] || []}
-            addTask={addTask}
+            key={columnKey}
+            title={columnKey}
+            tasks={filteredTasks[getColumnKey(columnKey)] || []}
+            addTask={(task) => addTask(task, getColumnKey(columnKey))}
             deleteTask={deleteTask}
             editTask={editTask}
             moveTask={moveTask}
@@ -206,7 +213,7 @@ function KanbanBoard({ searchQuery }) {
         {showModal && (
           <Modal
             title="Add New Column"
-            message="New column name:"
+            message="Column name:"
             isInputModal={true}
             inputValues={[
               {
