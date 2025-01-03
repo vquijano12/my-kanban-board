@@ -3,7 +3,31 @@
   border-radius: 5px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  flex: 0 0 auto;
+  width: 30%;
+  flex: 0 0 250px;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.Column .column-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Column .column-actions button {
+  background-color: turquoise;
+  border-radius: 3px;
+}
+
+.Column .add-task-button {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.Column .add-task-button button {
+  background-color: lightgreen;
+  border-radius: 3px;
 }
 
 /* Media queries for Column component */

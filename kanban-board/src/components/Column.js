@@ -65,11 +65,11 @@ function Column({
 
   return (
     <div className="Column" ref={drop}>
-      <h2>{title}</h2>
       <div className="column-actions">
         <button onClick={() => setIsEditModalOpen(true)}>Edit</button>
         <button onClick={handleDeleteColumn}>Delete</button>
       </div>
+      <h2>{title}</h2>
 
       <div className="task-list">
         {tasks.map((task) => (
@@ -83,9 +83,11 @@ function Column({
         ))}
       </div>
 
-      {title === "To Do" && (
-        <button onClick={() => setIsTaskModalOpen(true)}>+ Add Task</button>
-      )}
+      <div className="add-task-button">
+        {title === "To Do" && (
+          <button onClick={() => setIsTaskModalOpen(true)}>+ Add Task</button>
+        )}
+      </div>
 
       {isTaskModalOpen && (
         <Modal
