@@ -134,10 +134,13 @@ function KanbanBoard({ searchQuery }) {
   };
 
   const infoMessages = [
+    "Add addtional columns or delete existing ones.",
     "Add tasks by typing a title and description.",
-    "Drag and drop tasks between the columns (To Do, In Progress, Done).",
+    "Drag and drop tasks between the columns.",
     "Edit task titles and descriptions.",
+    "Edit column names.",
     "Lock tasks to prevent changes.",
+    "Filter tasks by title.",
     "Delete tasks when finished.",
   ];
 
