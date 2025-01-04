@@ -62,6 +62,13 @@
 .Column .add-task-button button {
   background-color: lightgreen;
   border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Column .add-task-button button:hover {
+  background-color: rgb(63, 177, 91);
 }
 
 /* Media queries for Column component */
