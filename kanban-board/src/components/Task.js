@@ -33,19 +33,16 @@ function Task({ task, deleteTask, column, editTask }) {
       description: editedDescription,
     });
     setIsEditing(false);
-    setIsMenuOpen(false);
   };
 
   const handleCancelEdit = () => {
     setEditedTitle(task.title);
     setEditedDescription(task.description);
     setIsEditing(false);
-    setIsMenuOpen(false);
   };
 
   const toggleLock = () => {
     editTask(columnKey, task.id, { locked: !task.locked });
-    setIsMenuOpen(false);
   };
 
   useEffect(() => {
@@ -67,16 +64,40 @@ function Task({ task, deleteTask, column, editTask }) {
         </button>
         {isMenuOpen && (
           <div className="menu-dropdown">
-            <button onClick={() => setIsDescriptionModalOpen(true)}>
+            <button
+              onClick={() => {
+                setIsDescriptionModalOpen(true);
+                setIsMenuOpen(false);
+              }}
+            >
               View
             </button>
-            <button onClick={() => setIsEditing(true)} disabled={task.locked}>
+            <button
+              onClick={() => {
+                setIsEditing(true);
+                setIsMenuOpen(false);
+              }}
+              disabled={task.locked}
+            >
               Edit
             </button>
-            <button onClick={deleteTask} disabled={task.locked}>
+
+            <button
+              onClick={() => {
+                deleteTask();
+                setIsMenuOpen(false);
+              }}
+              disabled={task.locked}
+            >
               Delete
             </button>
-            <button onClick={toggleLock}>
+
+            <button
+              onClick={() => {
+                toggleLock();
+                setIsMenuOpen(false);
+              }}
+            >
               {task.locked ? "Unlock" : "Lock"}
             </button>
           </div>
@@ -89,11 +110,9 @@ function Task({ task, deleteTask, column, editTask }) {
           message={task.description || "No description"}
           onClose={() => {
             setIsDescriptionModalOpen(false);
-            setIsMenuOpen(false);
           }}
           onConfirm={() => {
             setIsDescriptionModalOpen(false);
-            setIsMenuOpen(false);
           }}
         />
       )}
