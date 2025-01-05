@@ -20,8 +20,9 @@ function Column({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskDescription, setNewTaskDescription] = useState("");
-  const [taskError, setTaskError] = useState("");
   const [newColumnName, setNewColumnName] = useState(title);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const columnKey = getColumnKey(title);
 
@@ -33,7 +34,8 @@ function Column({
 
   const handleAddTask = () => {
     if (!newTaskTitle.trim()) {
-      setTaskError("Please input a task title");
+      setErrorMessage("Please input a task title.");
+      setShowErrorModal(true);
       return;
     }
 
@@ -45,17 +47,22 @@ function Column({
     };
     addTask(newTask);
     handleCloseTaskModal();
-    setTaskError("");
+    setErrorMessage("");
   };
 
   const handleEditColumn = () => {
-    if (newColumnName.trim()) {
-      const newColumnKey = getColumnKey(newColumnName);
-      const oldColumnKey = columnKey;
-
-      onEditColumn(oldColumnKey, newColumnKey, newColumnName);
-      setIsEditModalOpen(false);
+    if (!newColumnName.trim()) {
+      setErrorMessage("Column name cannot be empty.");
+      setShowErrorModal(true);
+      return;
     }
+
+    const newColumnKey = getColumnKey(newColumnName);
+    const oldColumnKey = columnKey;
+
+    onEditColumn(oldColumnKey, newColumnKey, newColumnName);
+    setIsEditModalOpen(false);
+    setErrorMessage("");
   };
 
   const handleDeleteColumn = () => {
@@ -80,8 +87,22 @@ function Column({
           </button>
           {isMenuOpen && (
             <div className="menu-dropdown">
-              <button onClick={() => setIsEditModalOpen(true)}>Edit</button>
-              <button onClick={handleDeleteColumn}>Delete</button>
+              <button
+                onClick={() => {
+                  setIsEditModalOpen(true);
+                  setIsMenuOpen(false);
+                }}
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => {
+                  handleDeleteColumn();
+                  setIsMenuOpen(false);
+                }}
+              >
+                Delete
+              </button>
             </div>
           )}
         </div>
@@ -144,8 +165,13 @@ function Column({
         />
       )}
 
-      {taskError && (
-        <Modal message={taskError} onClose={() => setTaskError("")} />
+      {showErrorModal && (
+        <Modal
+          title="Error"
+          message={errorMessage}
+          isInputModal={false}
+          onClose={() => setShowErrorModal(false)}
+        />
       )}
     </div>
   );
