@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDrag } from "react-dnd";
 import "../styles/Task.css";
-import { getColumnKey } from "../utils/ColumnMapping";
+import { getColumnKey } from "../utils/columnMapping";
 import Modal from "./Modal";
 
 function Task({ task, deleteTask, column, editTask }) {

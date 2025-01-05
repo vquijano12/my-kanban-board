@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Task from "./Task";
 import { useDrop } from "react-dnd";
 import "../styles/Column.css";
-import { getColumnKey } from "../utils/ColumnMapping";
+import { getColumnKey } from "../utils/columnMapping";
 import Modal from "./Modal";
 
 function Column({
