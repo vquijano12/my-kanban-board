@@ -17,6 +17,11 @@
   border-radius: 8px;
   width: 300px;
   text-align: center;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .modal-header h2 {
