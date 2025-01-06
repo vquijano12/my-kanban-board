@@ -4,6 +4,7 @@ import { useDrop } from "react-dnd";
 import "../styles/Column.css";
 import { getColumnKey } from "../utils/columnMapping";
 import Modal from "./Modal";
+import { useModals } from "../utils/useModals";
 
 function Column({
   title,
@@ -21,10 +22,11 @@ function Column({
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [newColumnName, setNewColumnName] = useState(title);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const columnKey = getColumnKey(title);
+
+  const { setError, showErrorModal, errorMessage, handleErrorModal } =
+    useModals();
 
   const handleCloseTaskModal = () => {
     setIsTaskModalOpen(false);
@@ -34,8 +36,7 @@ function Column({
 
   const handleAddTask = () => {
     if (!newTaskTitle.trim()) {
-      setErrorMessage("Please input a task title.");
-      setShowErrorModal(true);
+      setError("Please input a task title.");
       return;
     }
 
@@ -47,13 +48,11 @@ function Column({
     };
     addTask(newTask);
     handleCloseTaskModal();
-    setErrorMessage("");
   };
 
   const handleEditColumn = () => {
     if (!newColumnName.trim()) {
-      setErrorMessage("Column name cannot be empty.");
-      setShowErrorModal(true);
+      setError("Column name cannot be empty.");
       return;
     }
 
@@ -62,7 +61,6 @@ function Column({
 
     onEditColumn(oldColumnKey, newColumnKey, newColumnName);
     setIsEditModalOpen(false);
-    setErrorMessage("");
   };
 
   const handleDeleteColumn = () => {
@@ -167,10 +165,10 @@ function Column({
 
       {showErrorModal && (
         <Modal
-          title="Error"
+          title=""
           message={errorMessage}
           isInputModal={false}
-          onClose={() => setShowErrorModal(false)}
+          onClose={handleErrorModal}
         />
       )}
     </div>

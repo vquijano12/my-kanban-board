@@ -3,6 +3,7 @@ import { useDrag } from "react-dnd";
 import "../styles/Task.css";
 import { getColumnKey } from "../utils/columnMapping";
 import Modal from "./Modal";
+import { useModals } from "../utils/useModals";
 
 function Task({ task, deleteTask, column, editTask }) {
   const columnKey = getColumnKey(column);
@@ -12,20 +13,22 @@ function Task({ task, deleteTask, column, editTask }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [editedTitle, setEditedTitle] = useState(task.title);
   const [editedDescription, setEditedDescription] = useState(task.description);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const [{ isDragging }, drag] = useDrag({
     type: "TASK",
     item: { id: task.id, column: columnKey },
-    canDrag: !isEditing && !task.locked,
+    canDrag: !isEditing && !task.locked && !isDescriptionModalOpen,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
 
+  const { setError, showErrorModal, errorMessage, handleErrorModal } =
+    useModals();
+
   const handleEdit = () => {
     if (!editedTitle.trim()) {
-      setErrorMessage("Task title cannot be empty");
+      setError("Task title cannot be empty.");
       return;
     }
     editTask(columnKey, task.id, {
@@ -141,8 +144,8 @@ function Task({ task, deleteTask, column, editTask }) {
         />
       )}
 
-      {errorMessage && (
-        <Modal message={errorMessage} onClose={() => setErrorMessage("")} />
+      {showErrorModal && (
+        <Modal message={errorMessage} onClose={handleErrorModal} />
       )}
     </div>
   );
