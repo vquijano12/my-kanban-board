@@ -76,34 +76,34 @@ function Column({
     <div className="Column" ref={drop}>
       <div className="column-header">
         <h2>{title}</h2>
-        <div className="column-menu">
-          <button
-            className="menu-button"
-            onClick={() => setIsMenuOpen((prev) => !prev)}
-          >
-            ⋮
-          </button>
-          {isMenuOpen && (
-            <div className="menu-dropdown">
-              <button
-                onClick={() => {
-                  setIsEditModalOpen(true);
-                  setIsMenuOpen(false);
-                }}
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => {
-                  handleDeleteColumn();
-                  setIsMenuOpen(false);
-                }}
-              >
-                Delete
-              </button>
-            </div>
-          )}
-        </div>
+      </div>
+      <div className="column-menu">
+        <button
+          className="menu-button"
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+        >
+          ⋮
+        </button>
+        {isMenuOpen && (
+          <div className="menu-dropdown">
+            <button
+              onClick={() => {
+                setIsEditModalOpen(true);
+                setIsMenuOpen(false);
+              }}
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => {
+                handleDeleteColumn();
+                setIsMenuOpen(false);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="task-list">
