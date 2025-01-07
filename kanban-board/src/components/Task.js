@@ -5,12 +5,19 @@ import { getColumnKey } from "../utils/columnMapping";
 import Modal from "./Modal";
 import { useModals } from "../utils/useModals";
 
-function Task({ task, deleteTask, column, editTask }) {
+function Task({
+  task,
+  deleteTask,
+  column,
+  editTask,
+  openMenu,
+  toggleMenu,
+  closeMenu,
+}) {
   const columnKey = getColumnKey(column);
 
   const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [editedTitle, setEditedTitle] = useState(task.title);
   const [editedDescription, setEditedDescription] = useState(task.description);
 
@@ -53,6 +60,8 @@ function Task({ task, deleteTask, column, editTask }) {
     setEditedDescription(task.description);
   }, [task]);
 
+  const isMenuOpen = openMenu === `task-${task.id}`;
+
   return (
     <div ref={drag} className="Task" style={{ opacity: isDragging ? 0.5 : 1 }}>
       <div className="task-content">
@@ -61,7 +70,7 @@ function Task({ task, deleteTask, column, editTask }) {
       <div className="task-menu">
         <button
           className="menu-button"
-          onClick={() => setIsMenuOpen((prev) => !prev)}
+          onClick={() => toggleMenu(`task-${task.id}`)}
         >
           ⋮
         </button>
@@ -70,7 +79,7 @@ function Task({ task, deleteTask, column, editTask }) {
             <button
               onClick={() => {
                 setIsDescriptionModalOpen(true);
-                setIsMenuOpen(false);
+                closeMenu();
               }}
             >
               View
@@ -78,7 +87,7 @@ function Task({ task, deleteTask, column, editTask }) {
             <button
               onClick={() => {
                 setIsEditing(true);
-                setIsMenuOpen(false);
+                closeMenu();
               }}
               disabled={task.locked}
             >
@@ -88,7 +97,7 @@ function Task({ task, deleteTask, column, editTask }) {
             <button
               onClick={() => {
                 deleteTask();
-                setIsMenuOpen(false);
+                closeMenu();
               }}
               disabled={task.locked}
             >
@@ -98,7 +107,7 @@ function Task({ task, deleteTask, column, editTask }) {
             <button
               onClick={() => {
                 toggleLock();
-                setIsMenuOpen(false);
+                closeMenu();
               }}
             >
               {task.locked ? "Unlock" : "Lock"}

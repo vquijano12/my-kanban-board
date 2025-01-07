@@ -2,6 +2,7 @@ import React from "react";
 import { useColumns } from "../utils/useColumns";
 import { useTasks } from "../utils/useTasks";
 import { useModals } from "../utils/useModals";
+import { useMenus } from "../utils/useMenus";
 import Column from "./Column";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -9,8 +10,11 @@ import "../styles/KanbanBoard.css";
 import { getColumnKey } from "../utils/columnMapping";
 import InfoModal from "./InfoModal";
 import Modal from "./Modal";
+import "../styles/DropMenu.css";
 
 function KanbanBoard({ searchQuery }) {
+  const { openMenu, toggleMenu, closeMenu } = useMenus();
+
   const { tasks, addTask, deleteTask, editTask, moveTask, setTasks } =
     useTasks();
 
@@ -81,6 +85,9 @@ function KanbanBoard({ searchQuery }) {
             onEditColumn={(oldColumnKey, newColumnKey, newName) =>
               handleColumnEdit(oldColumnKey, newColumnKey, newName)
             }
+            openMenu={openMenu}
+            toggleMenu={toggleMenu}
+            closeMenu={closeMenu}
           />
         ))}
 

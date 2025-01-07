@@ -15,10 +15,13 @@ function Column({
   editTask,
   onDeleteColumn,
   onEditColumn,
+  openMenu,
+  toggleMenu,
+  closeMenu,
 }) {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [newColumnName, setNewColumnName] = useState(title);
@@ -72,6 +75,8 @@ function Column({
     drop: (item) => moveTask(item.id, item.column, columnKey),
   });
 
+  const isMenuOpen = openMenu === `column-${title}`;
+
   return (
     <div className="Column" ref={drop}>
       <div className="column-header">
@@ -80,28 +85,14 @@ function Column({
       <div className="column-menu">
         <button
           className="menu-button"
-          onClick={() => setIsMenuOpen((prev) => !prev)}
+          onClick={() => toggleMenu(`column-${title}`)}
         >
           ⋮
         </button>
         {isMenuOpen && (
           <div className="menu-dropdown">
-            <button
-              onClick={() => {
-                setIsEditModalOpen(true);
-                setIsMenuOpen(false);
-              }}
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => {
-                handleDeleteColumn();
-                setIsMenuOpen(false);
-              }}
-            >
-              Delete
-            </button>
+            <button onClick={() => setIsEditModalOpen(true)}>Edit</button>
+            <button onClick={() => handleDeleteColumn()}>Delete</button>
           </div>
         )}
       </div>
@@ -114,6 +105,9 @@ function Column({
             deleteTask={() => deleteTask(columnKey, task.id)}
             editTask={editTask}
             column={title}
+            openMenu={openMenu}
+            toggleMenu={toggleMenu}
+            closeMenu={closeMenu}
           />
         ))}
       </div>
