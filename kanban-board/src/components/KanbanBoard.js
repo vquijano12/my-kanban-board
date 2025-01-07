@@ -30,7 +30,8 @@ function KanbanBoard({ searchQuery }) {
     showDeleteConfirmModal,
     handleDeleteCancel,
     handleDeleteConfirm,
-    showDeleteConfirmation, // New function for delete confirmation modal
+    showDeleteConfirmation,
+    deleteType, // Access deletion type
   } = useModals();
 
   const {
@@ -44,6 +45,10 @@ function KanbanBoard({ searchQuery }) {
     handleColumnEdit,
     setShowModal,
   } = useColumns(setTasks, setError, showDeleteConfirmation);
+
+  const handleTaskDelete = (column, taskId) => {
+    showDeleteConfirmation(() => deleteTask(column, taskId), "task");
+  };
 
   const filteredTasks = Object.keys(tasks).reduce((result, columnKey) => {
     result[columnKey] =
@@ -92,14 +97,14 @@ function KanbanBoard({ searchQuery }) {
             title={columnKey}
             tasks={filteredTasks[getColumnKey(columnKey)] || []}
             addTask={(task) => addTask(task, getColumnKey(columnKey))}
-            deleteTask={(column, taskId) => deleteTask(column, taskId)}
+            deleteTask={(column, taskId) => handleTaskDelete(column, taskId)}
             editTask={(column, taskId, updatedTask) =>
               editTask(column, taskId, updatedTask)
             }
             moveTask={(taskId, sourceColumn, targetColumn) =>
               moveTask(taskId, sourceColumn, targetColumn)
             }
-            onDeleteColumn={(columnKey) => handleColumnDelete(columnKey)} // Pass delete function here
+            onDeleteColumn={(columnKey) => handleColumnDelete(columnKey)}
             onEditColumn={(oldColumnKey, newColumnKey, newName) =>
               handleColumnEdit(oldColumnKey, newColumnKey, newName)
             }
@@ -140,7 +145,11 @@ function KanbanBoard({ searchQuery }) {
         {showDeleteConfirmModal && (
           <Modal
             title="Confirm Deletion"
-            message="Are you sure you want to delete this?"
+            message={
+              deleteType === "task"
+                ? "Are you sure you want to delete this task?"
+                : "Are you sure you want to delete this column?"
+            }
             isInputModal={false}
             onConfirm={handleDeleteConfirm}
             onClose={handleDeleteCancel}
