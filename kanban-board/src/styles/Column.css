@@ -31,39 +31,6 @@
   right: 5px;
 }
 
-.Column .menu-button {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.Column .menu-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  z-index: 10;
-}
-
-.Column .menu-dropdown button {
-  background: none;
-  border: none;
-  padding: 8px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.Column .menu-dropdown button:hover {
-  background-color: #f0f0f0;
-}
-
-
 .Column .add-task-button {
   display: flex;
   justify-content: flex-start;
