@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useColumns } from "../utils/useColumns";
@@ -14,6 +14,7 @@ import "../styles/DropMenu.css";
 
 function KanbanBoard({ searchQuery }) {
   const { openMenu, toggleMenu, closeMenu } = useMenus();
+  const menuRef = useRef(null);
 
   const { tasks, addTask, deleteTask, editTask, moveTask, setTasks } =
     useTasks();
@@ -59,6 +60,19 @@ function KanbanBoard({ searchQuery }) {
     "Delete tasks when finished.",
   ];
 
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [closeMenu]);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="KanbanBoard">
@@ -88,6 +102,7 @@ function KanbanBoard({ searchQuery }) {
             openMenu={openMenu}
             toggleMenu={toggleMenu}
             closeMenu={closeMenu}
+            menuRef={menuRef}
           />
         ))}
 

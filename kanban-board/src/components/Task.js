@@ -13,6 +13,7 @@ function Task({
   openMenu,
   toggleMenu,
   closeMenu,
+  menuRef,
 }) {
   const columnKey = getColumnKey(column);
 
@@ -93,7 +94,7 @@ function Task({
           ⋮
         </button>
         {isMenuOpen && (
-          <div className="menu-dropdown">
+          <div className="menu-dropdown" ref={menuRef}>
             <button
               onClick={() => {
                 setIsDescriptionModalOpen(true);

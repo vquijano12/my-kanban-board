@@ -18,10 +18,10 @@ function Column({
   openMenu,
   toggleMenu,
   closeMenu,
+  menuRef,
 }) {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [newColumnName, setNewColumnName] = useState(title);
@@ -90,7 +90,7 @@ function Column({
           ⋮
         </button>
         {isMenuOpen && (
-          <div className="menu-dropdown">
+          <div className="menu-dropdown" ref={menuRef}>
             <button onClick={() => setIsEditModalOpen(true)}>Edit</button>
             <button onClick={() => handleDeleteColumn()}>Delete</button>
           </div>
@@ -108,6 +108,7 @@ function Column({
             openMenu={openMenu}
             toggleMenu={toggleMenu}
             closeMenu={closeMenu}
+            menuRef={menuRef}
           />
         ))}
       </div>
