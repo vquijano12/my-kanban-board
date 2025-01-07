@@ -91,8 +91,22 @@ function Column({
         </button>
         {isMenuOpen && (
           <div className="menu-dropdown" ref={menuRef}>
-            <button onClick={() => setIsEditModalOpen(true)}>Edit</button>
-            <button onClick={() => handleDeleteColumn()}>Delete</button>
+            <button
+              onClick={() => {
+                setIsEditModalOpen(true);
+                closeMenu();
+              }}
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => {
+                handleDeleteColumn();
+                closeMenu();
+              }}
+            >
+              Delete
+            </button>
           </div>
         )}
       </div>
