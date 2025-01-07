@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getColumnKey } from "./columnMapping";
 
-export const useColumns = (setTasks, setError) => {
+export const useColumns = (setTasks, setError, showDeleteConfirmation) => {
   const [columns, setColumns] = useState(["To Do", "In Progress", "Done"]);
   const [newColumnName, setNewColumnName] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -19,9 +19,12 @@ export const useColumns = (setTasks, setError) => {
   };
 
   const handleColumnDelete = (columnKey) => {
-    setColumns((prev) =>
-      prev.filter((column) => getColumnKey(column) !== columnKey)
-    );
+    // Instead of directly deleting the column, trigger the confirmation modal
+    showDeleteConfirmation(() => {
+      setColumns((prev) =>
+        prev.filter((column) => getColumnKey(column) !== columnKey)
+      );
+    });
   };
 
   const handleColumnEdit = (oldColumnKey, newColumnKey, newName) => {

@@ -46,7 +46,7 @@ function Modal({
             ))}
         </div>
         <div className="modal-footer">
-          {isInputModal ? <button onClick={onConfirm}>Confirm</button> : null}
+          {onConfirm && <button onClick={onConfirm}>Confirm</button>}
           <button onClick={onClose}>Close</button>
         </div>
       </div>

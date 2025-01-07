@@ -27,6 +27,10 @@ function KanbanBoard({ searchQuery }) {
     setError,
     showErrorModal,
     errorMessage,
+    showDeleteConfirmModal,
+    handleDeleteCancel,
+    handleDeleteConfirm,
+    showDeleteConfirmation, // New function for delete confirmation modal
   } = useModals();
 
   const {
@@ -39,7 +43,7 @@ function KanbanBoard({ searchQuery }) {
     handleColumnDelete,
     handleColumnEdit,
     setShowModal,
-  } = useColumns(setTasks, setError);
+  } = useColumns(setTasks, setError, showDeleteConfirmation);
 
   const filteredTasks = Object.keys(tasks).reduce((result, columnKey) => {
     result[columnKey] =
@@ -95,7 +99,7 @@ function KanbanBoard({ searchQuery }) {
             moveTask={(taskId, sourceColumn, targetColumn) =>
               moveTask(taskId, sourceColumn, targetColumn)
             }
-            onDeleteColumn={(columnKey) => handleColumnDelete(columnKey)}
+            onDeleteColumn={(columnKey) => handleColumnDelete(columnKey)} // Pass delete function here
             onEditColumn={(oldColumnKey, newColumnKey, newName) =>
               handleColumnEdit(oldColumnKey, newColumnKey, newName)
             }
@@ -130,6 +134,16 @@ function KanbanBoard({ searchQuery }) {
             message={errorMessage}
             isInputModal={false}
             onClose={handleErrorModal}
+          />
+        )}
+
+        {showDeleteConfirmModal && (
+          <Modal
+            title="Confirm Deletion"
+            message="Are you sure you want to delete this?"
+            isInputModal={false}
+            onConfirm={handleDeleteConfirm}
+            onClose={handleDeleteCancel}
           />
         )}
 
