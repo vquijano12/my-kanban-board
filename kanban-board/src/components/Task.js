@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDrag } from "react-dnd";
-import "../styles/Task.css";
+import { useModals } from "../utils/useModals";
 import { getColumnKey } from "../utils/columnMapping";
 import Modal from "./Modal";
-import { useModals } from "../utils/useModals";
+import "../styles/Task.css";
 
 function Task({
   task,

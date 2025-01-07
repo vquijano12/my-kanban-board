@@ -1,15 +1,15 @@
 import React from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { useColumns } from "../utils/useColumns";
 import { useTasks } from "../utils/useTasks";
 import { useModals } from "../utils/useModals";
 import { useMenus } from "../utils/useMenus";
-import Column from "./Column";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import "../styles/KanbanBoard.css";
 import { getColumnKey } from "../utils/columnMapping";
+import Column from "./Column";
 import InfoModal from "./InfoModal";
 import Modal from "./Modal";
+import "../styles/KanbanBoard.css";
 import "../styles/DropMenu.css";
 
 function KanbanBoard({ searchQuery }) {

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Task from "./Task";
 import { useDrop } from "react-dnd";
-import "../styles/Column.css";
+import Task from "./Task";
 import { getColumnKey } from "../utils/columnMapping";
 import Modal from "./Modal";
 import { useModals } from "../utils/useModals";
+import "../styles/Column.css";
 
 function Column({
   title,
