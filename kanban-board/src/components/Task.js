@@ -61,28 +61,10 @@ function Task({
     setEditedDescription(task.description);
   }, [task]);
 
-  const handleMouseDown = (e) => {
-    const target = e.target;
-    if (
-      target.classList.contains("menu-button") ||
-      target.closest(".menu-dropdown")
-    ) {
-      return;
-    }
-    if (openMenu === `task-${task.id}`) {
-      closeMenu();
-    }
-  };
-
   const isMenuOpen = openMenu === `task-${task.id}`;
 
   return (
-    <div
-      ref={drag}
-      className="Task"
-      style={{ opacity: isDragging ? 0.5 : 1 }}
-      onMouseDown={handleMouseDown}
-    >
+    <div ref={drag} className="Task" style={{ opacity: isDragging ? 0.5 : 1 }}>
       <div className="task-content">
         <h3>{task.title}</h3>
       </div>
