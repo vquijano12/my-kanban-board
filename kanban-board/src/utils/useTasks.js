@@ -32,7 +32,6 @@ export const useTasks = () => {
 
   const moveTask = (taskId, sourceColumn, targetColumn) => {
     setTasks((prevTasks) => {
-      // Ensure the target column is initialized as an empty array if it's undefined
       if (!prevTasks[targetColumn]) {
         prevTasks[targetColumn] = [];
       }

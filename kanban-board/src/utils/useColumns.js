@@ -19,7 +19,6 @@ export const useColumns = (setTasks, setError, showDeleteConfirmation) => {
   };
 
   const handleColumnDelete = (columnKey) => {
-    // Instead of directly deleting the column, trigger the confirmation modal
     showDeleteConfirmation(() => {
       setColumns((prev) =>
         prev.filter((column) => getColumnKey(column) !== columnKey)

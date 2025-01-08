@@ -31,7 +31,7 @@ function KanbanBoard({ searchQuery }) {
     handleDeleteCancel,
     handleDeleteConfirm,
     showDeleteConfirmation,
-    deleteType, // Access deletion type
+    deleteType,
   } = useModals();
 
   const {

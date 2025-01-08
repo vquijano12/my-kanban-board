@@ -10,8 +10,8 @@ function Modal({
   inputValues = [],
 }) {
   const handleInputResize = (e) => {
-    e.target.style.height = "auto"; // Reset height
-    e.target.style.height = `${e.target.scrollHeight}px`; // Set new height based on content
+    e.target.style.height = "auto";
+    e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
   return (
@@ -27,12 +27,11 @@ function Modal({
               <div key={index} className="modal-input-group">
                 <label>{input.label}</label>
                 {input.label === "Description" ? (
-                  // Use a textarea for the description input
                   <textarea
                     value={input.value}
                     onChange={input.onChange}
                     placeholder={input.placeholder || ""}
-                    onInput={handleInputResize} // Resize on input
+                    onInput={handleInputResize}
                   />
                 ) : (
                   <input

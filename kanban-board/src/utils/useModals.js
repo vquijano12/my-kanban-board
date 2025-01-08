@@ -5,7 +5,7 @@ export const useModals = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
-  const [deleteType, setDeleteType] = useState(null); // Tracks type of deletion
+  const [deleteType, setDeleteType] = useState(null);
   const [confirmDeleteCallback, setConfirmDeleteCallback] = useState(null);
 
   const handleInfoClick = () => setShowInfoModal(true);
@@ -24,7 +24,7 @@ export const useModals = () => {
 
   const showDeleteConfirmation = (callback, type = "column") => {
     setConfirmDeleteCallback(() => callback);
-    setDeleteType(type); // Tracks whether it's "task" or "column"
+    setDeleteType(type);
     setShowDeleteConfirmModal(true);
   };
 
@@ -42,7 +42,7 @@ export const useModals = () => {
     showErrorModal,
     errorMessage,
     showDeleteConfirmModal,
-    deleteType, // Expose deleteType for conditional rendering
+    deleteType,
     handleInfoClick,
     closeInfoModal,
     handleErrorModal,
