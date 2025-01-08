@@ -71,7 +71,11 @@ function KanbanBoard({ searchQuery }) {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target) &&
+        !e.target.closest(".menu-button")
+      ) {
         closeMenu();
       }
     };
