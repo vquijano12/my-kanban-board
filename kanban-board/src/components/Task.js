@@ -125,9 +125,6 @@ function Task({
           onClose={() => {
             setIsDescriptionModalOpen(false);
           }}
-          onConfirm={() => {
-            setIsDescriptionModalOpen(false);
-          }}
         />
       )}
 
