@@ -26,6 +26,8 @@ function Column({
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [newColumnName, setNewColumnName] = useState(title);
 
+  const isMenuOpen = openMenu === `column-${title}`;
+
   const columnKey = getColumnKey(title);
 
   const { setError, showErrorModal, errorMessage, handleErrorModal } =
@@ -74,8 +76,6 @@ function Column({
     accept: "TASK",
     drop: (item) => moveTask(item.id, item.column, columnKey),
   });
-
-  const isMenuOpen = openMenu === `column-${title}`;
 
   return (
     <div className="Column" ref={drop}>
