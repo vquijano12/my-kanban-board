@@ -22,10 +22,13 @@ function Task({
   const [editedTitle, setEditedTitle] = useState(task.title);
   const [editedDescription, setEditedDescription] = useState(task.description);
 
+  const isMenuOpen = openMenu === `task-${task.id}`;
+
   const [{ isDragging }, drag] = useDrag({
     type: "TASK",
     item: { id: task.id, column: columnKey },
-    canDrag: !isEditing && !task.locked && !isDescriptionModalOpen,
+    canDrag:
+      !isEditing && !task.locked && !isDescriptionModalOpen && !isMenuOpen,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -60,8 +63,6 @@ function Task({
     setEditedTitle(task.title);
     setEditedDescription(task.description);
   }, [task]);
-
-  const isMenuOpen = openMenu === `task-${task.id}`;
 
   return (
     <div ref={drag} className="Task" style={{ opacity: isDragging ? 0.5 : 1 }}>
