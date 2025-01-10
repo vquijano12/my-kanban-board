@@ -90,6 +90,11 @@ function KanbanBoard({ searchQuery }) {
     };
   }, [closeMenu]);
 
+  const handleCancelAddColumn = () => {
+    setNewColumnName("");
+    setShowModal(false);
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="KanbanBoard">
@@ -137,7 +142,7 @@ function KanbanBoard({ searchQuery }) {
               },
             ]}
             onConfirm={handleConfirmColumn}
-            onClose={() => setShowModal(false)}
+            onClose={handleCancelAddColumn}
           />
         )}
 
