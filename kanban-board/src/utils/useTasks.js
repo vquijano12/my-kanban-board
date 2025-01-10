@@ -7,6 +7,8 @@ export const useTasks = (showDeleteConfirmation) => {
     done: [],
   });
 
+  const [taskToDelete, setTaskToDelete] = useState(null);
+
   const addTask = (task, columnKey) => {
     setTasks((prevTasks) => ({
       ...prevTasks,
@@ -15,12 +17,18 @@ export const useTasks = (showDeleteConfirmation) => {
   };
 
   const deleteTask = (column, taskId) => {
-    showDeleteConfirmation(() => {
-      setTasks((prevTasks) => ({
-        ...prevTasks,
-        [column]: prevTasks[column].filter((task) => task.id !== taskId),
-      }));
-    }, "task");
+    const task = tasks[column].find((task) => task.id === taskId);
+    setTaskToDelete(task);
+    showDeleteConfirmation(
+      () => {
+        setTasks((prevTasks) => ({
+          ...prevTasks,
+          [column]: prevTasks[column].filter((task) => task.id !== taskId),
+        }));
+      },
+      "task",
+      task
+    );
   };
 
   const editTask = (column, taskId, updatedTask) => {
@@ -78,5 +86,6 @@ export const useTasks = (showDeleteConfirmation) => {
     deleteTask,
     editTask,
     moveTask,
+    taskToDelete,
   };
 };

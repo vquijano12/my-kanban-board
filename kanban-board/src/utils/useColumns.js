@@ -5,6 +5,7 @@ export const useColumns = (setTasks, setError, showDeleteConfirmation) => {
   const [columns, setColumns] = useState(["To Do", "In Progress", "Done"]);
   const [newColumnName, setNewColumnName] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [columnToDelete, setColumnToDelete] = useState("");
 
   const handleAddColumn = () => setShowModal(true);
 
@@ -19,11 +20,17 @@ export const useColumns = (setTasks, setError, showDeleteConfirmation) => {
   };
 
   const handleColumnDelete = (columnKey) => {
-    showDeleteConfirmation(() => {
-      setColumns((prev) =>
-        prev.filter((column) => getColumnKey(column) !== columnKey)
-      );
-    });
+    const columnName = columns.find((col) => getColumnKey(col) === columnKey);
+    setColumnToDelete(columnName);
+    showDeleteConfirmation(
+      () => {
+        setColumns((prev) =>
+          prev.filter((column) => getColumnKey(column) !== columnKey)
+        );
+      },
+      "column",
+      columnName
+    );
   };
 
   const handleColumnEdit = (oldColumnKey, newColumnKey, newName) => {
@@ -53,5 +60,6 @@ export const useColumns = (setTasks, setError, showDeleteConfirmation) => {
     handleColumnDelete,
     handleColumnEdit,
     setShowModal,
+    columnToDelete,
   };
 };
