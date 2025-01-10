@@ -16,9 +16,6 @@ function KanbanBoard({ searchQuery }) {
   const { openMenu, toggleMenu, closeMenu } = useMenus();
   const menuRef = useRef(null);
 
-  const { tasks, addTask, deleteTask, editTask, moveTask, setTasks } =
-    useTasks();
-
   const {
     showInfoModal,
     handleInfoClick,
@@ -34,6 +31,10 @@ function KanbanBoard({ searchQuery }) {
     deleteType,
   } = useModals();
 
+  const { tasks, addTask, deleteTask, editTask, moveTask, setTasks } = useTasks(
+    showDeleteConfirmation
+  );
+
   const {
     columns,
     newColumnName,
@@ -45,10 +46,6 @@ function KanbanBoard({ searchQuery }) {
     handleColumnEdit,
     setShowModal,
   } = useColumns(setTasks, setError, showDeleteConfirmation);
-
-  const handleTaskDelete = (column, taskId) => {
-    showDeleteConfirmation(() => deleteTask(column, taskId), "task");
-  };
 
   const filteredTasks = Object.keys(tasks).reduce((result, columnKey) => {
     result[columnKey] =
@@ -101,7 +98,7 @@ function KanbanBoard({ searchQuery }) {
             title={columnKey}
             tasks={filteredTasks[getColumnKey(columnKey)] || []}
             addTask={(task) => addTask(task, getColumnKey(columnKey))}
-            deleteTask={(column, taskId) => handleTaskDelete(column, taskId)}
+            deleteTask={(column, taskId) => deleteTask(column, taskId)}
             editTask={(column, taskId, updatedTask) =>
               editTask(column, taskId, updatedTask)
             }

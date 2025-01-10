@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useTasks = () => {
+export const useTasks = (showDeleteConfirmation) => {
   const [tasks, setTasks] = useState({
     todo: [],
     inProgress: [],
@@ -15,10 +15,12 @@ export const useTasks = () => {
   };
 
   const deleteTask = (column, taskId) => {
-    setTasks((prevTasks) => ({
-      ...prevTasks,
-      [column]: prevTasks[column].filter((task) => task.id !== taskId),
-    }));
+    showDeleteConfirmation(() => {
+      setTasks((prevTasks) => ({
+        ...prevTasks,
+        [column]: prevTasks[column].filter((task) => task.id !== taskId),
+      }));
+    }, "task");
   };
 
   const editTask = (column, taskId, updatedTask) => {
