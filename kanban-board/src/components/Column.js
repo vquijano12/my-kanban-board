@@ -68,6 +68,11 @@ function Column({
     setIsEditModalOpen(false);
   };
 
+  const handleCancelEditColumn = () => {
+    setNewColumnName(title);
+    setIsEditModalOpen(false);
+  };
+
   const handleDeleteColumn = () => {
     onDeleteColumn(columnKey);
   };
@@ -168,7 +173,7 @@ function Column({
             },
           ]}
           onConfirm={handleEditColumn}
-          onClose={() => setIsEditModalOpen(false)}
+          onClose={handleCancelEditColumn}
         />
       )}
 
