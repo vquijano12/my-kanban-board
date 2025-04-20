@@ -1,0 +1,45 @@
+.Task {
+  background-color: #e2e2e2;
+  border-radius: 3px;
+  margin: 5px 0;
+  padding: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.task-content {
+  margin-bottom: 5px;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.task-menu {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+/* Media queries for Task component */
+
+/* Small devices (phones, 600px and down) */
+@media (max-width: 600px) {
+  .Task {
+    margin: 5px 0;
+  }
+}
+
+/* Medium devices (tablets, 600px to 900px) */
+@media (min-width: 601px) and (max-width: 900px) {
+  .Task {
+    margin: 8px 0;
+  }
+}
+
+/* Large devices (desktops, 900px and up) */
+@media (min-width: 901px) {
+  .Task {
+    margin: 10px 0;
+  }
+}
